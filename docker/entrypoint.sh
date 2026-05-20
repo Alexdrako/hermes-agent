@@ -157,4 +157,10 @@ esac
 if [ $# -gt 0 ] && command -v "$1" >/dev/null 2>&1; then
     exec "$@"
 fi
+
+# Gateway autostart for Railway/Docker (no interactive terminal)
+if [ -n "$HERMES_GATEWAY_AUTOSTART" ] && [ $# -eq 0 ]; then
+    exec hermes gateway run
+fi
+
 exec hermes "$@"

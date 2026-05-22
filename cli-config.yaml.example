@@ -783,6 +783,26 @@ platform_toolsets:
 #   timeout: tool call timeout in seconds (default: 120)
 #   connect_timeout: initial connection timeout (default: 60)
 #
+# =============================================================================
+# agentmemory — Persistent memory via MCP (Railway internal service)
+# =============================================================================
+# Connects hermes-agent to the agentmemory service running at
+# http://agentmemory.railway.internal:3111 so conversation context is stored
+# on a persistent volume and survives gateway restarts.
+#
+# The URL is read from the AGENTMEMORY_URL environment variable, which
+# defaults to the Railway-internal address below.  Override it in .env or
+# as a Railway service variable if the service moves.
+#
+# To enable, uncomment the mcp_servers block below (or merge it with any
+# existing mcp_servers section you already have in your config.yaml).
+#
+# mcp_servers:
+#   agentmemory:
+#     url: "${AGENTMEMORY_URL}/mcp"
+#     # timeout: 30          # tool call timeout in seconds (default: 120)
+#     # connect_timeout: 10  # initial connection timeout (default: 60)
+
 # mcp_servers:
 #   time:
 #     command: uvx

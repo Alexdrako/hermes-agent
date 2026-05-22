@@ -797,9 +797,10 @@ platform_toolsets:
 # To enable, uncomment the mcp_servers block below (or merge it with any
 # existing mcp_servers section you already have in your config.yaml).
 #
-# mcp_servers:
-#   agentmemory:
-#     url: "${AGENTMEMORY_URL}/mcp"
+mcp_servers:
+  agentmemory:
+    command: npx
+    args: ["-y", "@agentmemory/mcp"]
 #     # timeout: 30          # tool call timeout in seconds (default: 120)
 #     # connect_timeout: 10  # initial connection timeout (default: 60)
 

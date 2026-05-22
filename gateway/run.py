@@ -563,6 +563,23 @@ if _config_path.exists():
             _redact = _security_cfg.get("redact_secrets")
             if _redact is not None:
                 os.environ["HERMES_REDACT_SECRETS"] = str(_redact).lower()
+        # agentmemory MCP integration — bridge config.yaml agentmemory.url
+        # (or the top-level AGENTMEMORY_URL key) into the AGENTMEMORY_URL env
+        # var so that ${AGENTMEMORY_URL} placeholders in mcp_servers configs
+        # resolve correctly.  The env var is only set when not already present
+        # (explicit Railway service variable or .env entry takes precedence).
+        if "AGENTMEMORY_URL" not in os.environ:
+            _agentmemory_cfg = _cfg.get("agentmemory", {})
+            _agentmemory_url = (
+                _agentmemory_cfg.get("url")
+                if isinstance(_agentmemory_cfg, dict)
+                else None
+            )
+            if not _agentmemory_url:
+                # Fall back to the Railway-internal default address.
+                _agentmemory_url = "http://agentmemory.railway.internal:3111"
+            os.environ["AGENTMEMORY_URL"] = str(_agentmemory_url)
+
     except Exception as _bridge_err:
         # Previously this was silent (`except Exception: pass`), which
         # hid partial bridge failures and let .env defaults shadow
@@ -571,6 +588,7 @@ if _config_path.exists():
         # stderr so operators see it even though `logger` is not yet
         # initialized at module-import time (logger is defined further
         # down this module).
+
         print(
             f"  Warning: config.yaml → env bridge failed: "
             f"{type(_bridge_err).__name__}: {_bridge_err}",

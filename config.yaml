@@ -1,0 +1,8 @@
+model: qwen/qwen3-235b-a22b:free
+provider: openrouter
+max_tokens: 4096
+
+mcp_servers:
+  agentmemory:
+    command: npx
+    args: ["-y", "@agentmemory/mcp"]

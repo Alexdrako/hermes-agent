@@ -1,0 +1,5 @@
+name: atria-provider
+kind: model-provider
+version: 1.0.0
+description: Atria — OpenAI-compatible multi-model API
+author: alexd
